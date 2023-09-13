@@ -75,8 +75,17 @@ Route::middleware(['check:siswa'])->group(function () {
     Route::get('/siswa', [SiswaController::class, 'index']);
 
     Route::get('/siswa/soal/{jenis}', [SiswaController::class, 'viewSoal']);
-    Route::get('/siswa/kerjakan/{jenis}/{id}', [SiswaController::class, 'viewKerjakan']);
+
+    // ===============================================================================================
+    // zone validasi
+    // ===============================================================================================
+    Route::post('/siswa/token/submit/{id}', [SiswaController::class, 'submitToken']);
 });
+
+// ===============================================================================================
+// Ujian
+// ===============================================================================================
+Route::get('/siswa/kerjakan/{jenis}/{id}', [SiswaController::class, 'viewKerjakan'])->middleware('check:ujian');
 
 // ===============================================================================================
 // Hanya Admin !!!
@@ -104,4 +113,9 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/guru/data/data-guru/edit/{nip}', [DataController::class, 'editDataGuru']);
     Route::post('/guru/data/data-siswa/edit/{id}', [DataController::class, 'editDataSiswa']);
     Route::post('/guru/data/data-dudi/edit/{id}', [DataController::class, 'editDataDudi']);
+});
+
+
+Route::get('/debug', function () {
+    dd(session()->all());
 });

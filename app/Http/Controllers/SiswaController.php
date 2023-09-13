@@ -31,13 +31,47 @@ class SiswaController extends Controller
 
     public function viewKerjakan($jenis, $id)
     {
-        return view('siswa.kerjakan');
+        if ($jenis == 'ukk') {
+        } else {
+            $soal = DB::table('tb_soal')->where('id', $id)->first();
+
+            if ($soal == null) {
+                return abort(404);
+            }
+
+            if ($soal->type == 'pilihan') {
+                $soal = DB::table('tb_butir_pilihan')->where('id_soal', $id)->paginate(1);
+
+                return view('siswa.kerjakan', compact('soal'));
+            } else {
+            }
+        }
     }
 
     // ===============================================================================================
     // ===============================================================================================
 
+    // ===============================================================================================
+    // zone validasi
+    // ===============================================================================================
+    public function submitToken($id, Request $request)
+    {
+        $soal = DB::table('tb_soal')->where('id', $id)->first();
 
+        if ($soal->token === $request->token) {
+            session([
+                'ujian' => $id,
+                'jenis' => $soal->jenis,
+            ]);
+        } else {
+            session()->remove('ujian');
+            session()->remove('jenis');
+        }
+
+        return back();
+    }
+    // ===============================================================================================
+    // ===============================================================================================
 
 
 

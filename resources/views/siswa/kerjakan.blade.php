@@ -8,7 +8,7 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="/AdminLTE/plugins/fontawesome-free/css/all.min.css">
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="/AdminLTE/plugins/bootstrap/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -17,18 +17,25 @@
 
         <div class="card">
             <div class="card-header">
-                <h4>Soal ke 1</h4>
+                <h4>Soal ke {{ $soal->currentPage() }}</h4>
             </div>
 
             <div class="card-body">
-                <h5>Ini adalah soal Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum voluptates expedita rem. Ad dolores necessitatibus accusamus reprehenderit sequi incidunt deleniti numquam nostrum fugiat quaerat, totam at eum mollitia, fuga et.</h5>
+                <h5>
+                    @php
+                        echo $soal->items()[0]->soal;
+                    @endphp
+                </h5>
                 <hr>
 
                 <table>
+                    @php
+                        $pilihan = explode('%|@|%', $soal->items()[0]->pilihan);
+                    @endphp
                     @for ($i = 0; $i < 4; $i++)
                         <tr>
                             <td class="pe-3"><input type="radio" name="correct" id="correct{{ $i }}"></td>
-                            <td><label for="correct{{ $i }}">Pilihan {{ $i }}</label></td>
+                            <td><label for="correct{{ $i }}">{{ $pilihan[$i] }}</label></td>
                         </tr>
                     @endfor
                 </table>
@@ -37,10 +44,10 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-6">
-                        <button class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</button>
+                        <a href="{{ $soal->previousPageUrl() }}" class="btn btn-primary {{ $soal->onFirstPage() ? 'disabled' : '' }}"><i class="fas fa-arrow-left"></i> Back</a>
                     </div>
                     <div class="col-6 text-end">
-                        <button class="btn btn-primary"><i class="fas fa-arrow-right"></i> Next</button>
+                        <a href="{{ $soal->nextPageUrl() }}" class="btn btn-primary {{ $soal->currentPage() == $soal->total() ? 'disabled' : '' }}"><i class="fas fa-arrow-right"></i> Next</a>
                     </div>
                 </div>
             </div>
@@ -53,8 +60,8 @@
             </div>
 
             <div class="card-body text-center">
-                @for ($i = 1; $i < 41; $i++)
-                    <button class="btn btn-outline-secondary m-1" style="width: 50px">{{ $i }}</button>
+                @for ($i = 0; $i < $soal->total(); $i++)
+                    <a href="{{ $soal->url($i + 1) }}" class="btn border-dark {{ $soal->currentPage() == $i + 1 ? 'btn-warning' : 'btn-outline-secondary ' }} m-1" style="width: 50px">{{ $i + 1 }}</a>
                 @endfor
             </div>
 
@@ -62,7 +69,7 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="/AdminLTE/plugins/bootstrap/js/bootstrap5.bundle.js"></script>
 </body>
 
 </html>

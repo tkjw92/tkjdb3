@@ -24,13 +24,32 @@ class check
 
         if ($type == 'siswa') {
             if (session()->has('akun')) {
+                if (session()->has('ujian') && session()->has('jenis')) {
+                    return redirect('/siswa/kerjakan/' . session('jenis') . '/' . session('ujian'));
+                }
+
                 if (session('akun')['role'] == 'siswa') {
                     return $next($request);
                 } else {
                     return redirect('/');
                 }
             } else {
-                return redirect();
+                return redirect('/');
+            }
+        }
+        if ($type == 'ujian') {
+            if (session()->has('akun')) {
+                if (session()->has('ujian') && session()->has('jenis')) {
+                    $url = explode('/', $request->path());
+
+                    if ($url[2] == session('jenis') && $url[3] == session('ujian')) {
+                        return $next($request);
+                    } else {
+                        return redirect('siswa/kerjakan/' . session('jenis') . '/' . session('ujian'));
+                    }
+                }
+            } else {
+                return redirect('/');
             }
         } else {
             if (session()->has('akun')) {
