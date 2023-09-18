@@ -58,13 +58,13 @@
                 <li class="nav-header">Other</li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/siswa/rapor" class="nav-link {{ Request::is('siswa/rapor') ? 'active' : '' }}">
                         <i class="fas fa-book nav-icon"></i>
                         <p>Rapor Siswa</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/siswa/prakerin" class="nav-link {{ Request::is('siswa/prakerin') ? 'active' : '' }}">
                         <i class="fas fa-briefcase nav-icon"></i>
                         <p>Laporan Prakerin</p>
                     </a>

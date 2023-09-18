@@ -46,6 +46,57 @@ class DataController extends Controller
         return view('guru.dataDudi', compact('dataDudi'));
     }
 
+    public function viewRapor()
+    {
+        $kelass = DB::table('tb_kelas')->get();
+        $dataSiswa = DB::table('tb_siswa')->get();
+        $scores = DB::table('tb_score')->get();
+        $soals = DB::table('tb_soal')->get();
+
+        return view('guru.listRapor', compact('kelass', 'dataSiswa', 'scores', 'soals'));
+    }
+
+    public function viewPrakerin()
+    {
+        $laporans = DB::table('tb_prakerin')->get();
+        $dudis = DB::table('tb_dudi')->get();
+        $siswa = DB::table('tb_siswa')->get();
+
+        return view('guru.prakerin', compact('laporans', 'dudis', 'siswa'));
+    }
+
+    public function approvePrakerin(Request $request)
+    {
+        $laporan = DB::table('tb_prakerin')->where('id', $request->id);
+
+        if ($laporan->first()->status == "null") {
+            $laporan->update([
+                'status' => 'Telah di approve oleh ' . session('akun')['nama']
+            ]);
+        }
+
+        return redirect('/guru/prakerin');
+    }
+
+    public function viewPenilaianUkk()
+    {
+        $kelass = DB::table('tb_kelas')->get();
+        $soals = DB::table('tb_jawaban_ukk')->get();
+        $siswa = DB::table('tb_siswa')->get();
+        $dataSoal = DB::table('tb_soal_ukk')->where('owner', session('akun')['nip'])->get();
+
+        return view('guru.penilaianUkk', compact('kelass', 'soals', 'siswa', 'dataSoal'));
+    }
+
+    public function submitNilaiUkk(Request $request)
+    {
+        DB::table('tb_jawaban_ukk')->where('id', $request->id)->update([
+            'penilaian' => $request->penilaian
+        ]);
+
+        return redirect('/guru/penilaian/ukk');
+    }
+
     // ===============================================================================================
     // ===============================================================================================
 

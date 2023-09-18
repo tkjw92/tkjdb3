@@ -98,8 +98,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon text-warning"></i>
+                            <a href="/guru/soal/list/koreksi" class="nav-link {{ Request::is('guru/soal/list/koreksi') ? 'active' : '' }}">
+                                <i class="far {{ Request::is('guru/soal/list/koreksi') ? 'fa-dot-circle' : 'fa-circle' }} nav-icon text-warning"></i>
                                 <p>Koreksi Soal Uraian</p>
                             </a>
                         </li>
@@ -109,15 +109,21 @@
                 <li class="nav-header">Other</li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/guru/rapor" class="nav-link {{ Request::is('guru/rapor') ? 'active' : '' }}">
                         <i class="fas fa-book nav-icon"></i>
                         <p>Rapor Siswa</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/guru/prakerin" class="nav-link {{ Request::is('guru/prakerin') ? 'active' : '' }}">
                         <i class="fas fa-briefcase nav-icon"></i>
                         <p>Laporan Prakerin</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/guru/penilaian/ukk" class="nav-link {{ Request::is('guru/penilaian/ukk') ? 'active' : '' }}">
+                        <i class="fas fa-table nav-icon"></i>
+                        <p>Penilaian UKK</p>
                     </a>
                 </li>
             </ul>

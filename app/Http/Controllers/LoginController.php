@@ -27,23 +27,29 @@ class LoginController extends Controller
         if ($roleGuru->count() > 0) {
             $nama = $dataGuru->where('nip', $username)->first()->nama;
             $role = $dataGuru->where('nip', $username)->first()->role;
-            session(['akun' => [
-                'role' => $role,
-                'nip' => $username,
-                'nama' => $nama
-            ]]);
+            session([
+                'akun' => [
+                    'role' => $role,
+                    'nip' => $username,
+                    'nama' => $nama,
+                ],
+            ]);
 
             return redirect('/guru');
         }
 
         if ($roleSiswa->count() > 0) {
             $nama = $dataSiswa->where('nis', $username)->first()->nama;
+            $kelas = $dataSiswa->where('nis', $username)->first()->kelas;
             $role = 'siswa';
-            session(['akun' => [
-                'role' => $role,
-                'nis' => $username,
-                'nama' => $nama
-            ]]);
+            session([
+                'akun' => [
+                    'role' => $role,
+                    'nis' => $username,
+                    'nama' => $nama,
+                    'kelas' => $kelas,
+                ],
+            ]);
 
             return redirect('/siswa');
         } else {

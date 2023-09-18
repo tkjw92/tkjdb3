@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_soal_ukk', function (Blueprint $table) {
+        Schema::create('tb_jawaban_ukk', function (Blueprint $table) {
             $table->id();
-            $table->string('mapel');
-            $table->string('capaian');
-            $table->string('status');
-            $table->string('owner');
+            $table->integer('id_soal');
+            $table->string('nis');
             $table->string('url');
-            $table->longText('template');
+            $table->longText('penilaian')->default('null');
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_soal_ukk');
+        Schema::dropIfExists('tb_jawaban_ukk');
     }
 };

@@ -4,6 +4,7 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <script src="/AdminLTE/plugins/ckeditor/ckeditor.js"></script>
 @endsection
 
 @section('judul')
@@ -103,6 +104,11 @@
                                     <label class="custom-file-label" for="inputGroupFile01" id="nameFile">Choose file</label>
                                 </div>
                             </div>
+
+                            <div class="form-group mt-2">
+                                <label for="template">Template Penilaian</label>
+                                <textarea name="template" id="template" cols="30" rows="10"></textarea>
+                            </div>
                         @endif
                     </div>
                     <div class="modal-footer">
@@ -158,6 +164,29 @@
     <script src="/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+    @if (Request::is('guru/soal/ukk'))
+        <script>
+            ClassicEditor
+                .create(document.getElementById('template'), {
+                    // Editor configuration.
+                })
+                .then(editor => {
+                    window.editor = editor;
+                })
+                .catch(handleSampleError);
+
+            function handleSampleError(error) {
+                const message = [
+                    'Oops, something went wrong!',
+                    `Please, report the following error on admin@nizar.my.id with the error stack trace:`
+                ].join('\n');
+
+                console.error(message);
+                console.error(error);
+            }
+        </script>
+    @endif
 
     <script>
         $("#example1").DataTable({

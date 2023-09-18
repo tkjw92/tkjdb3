@@ -39,6 +39,11 @@ Route::middleware(['check:guru'])->group(function () {
     Route::get('/guru/soal/{jenis}', [SoalController::class, 'viewSoal']);
     Route::get('/guru/soal/edit/{id}', [SoalController::class, 'viewEditSoal']);
     Route::get('/guru/soal/ukk/edit/{id}', [SoalController::class, 'viewEditSoalUkk']);
+    Route::get('/guru/soal/list/koreksi', [SoalController::class, 'viewListKoreksi']);
+    Route::get('/guru/soal/list/koreksi/{nis}/{id}', [SoalController::class, 'viewKoreksi']);
+    ROute::get('/guru/rapor', [DataController::class, 'viewRapor']);
+    Route::get('/guru/prakerin', [DataController::class, 'viewPrakerin']);
+    Route::get('/guru/penilaian/ukk', [DataController::class, 'viewPenilaianUkk']);
 
     // ===============================================================================================
     // zone add
@@ -57,12 +62,19 @@ Route::middleware(['check:guru'])->group(function () {
     Route::get('/guru/soal/ukk/delete/{id}', [SoalController::class, 'deleteSoalUkk']);
 
     // ===============================================================================================
-    // zone edit
+    // zone edit / update
     // ===============================================================================================
     Route::post('/guru/soal/edit/{id}', [SoalController::class, 'editSoal']);
     Route::post('/guru/soal/edit/butir-pilihan/{id}', [SoalController::class, 'editButirPilihan']);
     Route::post('/guru/soal/edit/butir-uraian/{id}', [SoalController::class, 'editButirUraian']);
     Route::post('/guru/soal/ukk/edit/{id}', [SoalController::class, 'editSoalUkk']);
+    Route::post('/guru/prakerin', [DataController::class, 'approvePrakerin']);
+    Route::post('/guru/penilaian/ukk', [DataController::class, 'submitNilaiUkk']);
+
+    // ===============================================================================================
+    // zone koreksi
+    // ===============================================================================================
+    Route::post('/guru/soal/list/koreksi/{nis}/{id}', [SoalController::class, 'koreksi']);
 });
 
 // ===============================================================================================
@@ -73,8 +85,16 @@ Route::middleware(['check:siswa'])->group(function () {
     // zone view
     // ===============================================================================================
     Route::get('/siswa', [SiswaController::class, 'index']);
+    Route::get('/siswa/rapor', [SiswaController::class, 'viewRapor']);
 
     Route::get('/siswa/soal/{jenis}', [SiswaController::class, 'viewSoal']);
+    Route::get('/siswa/soal/ukk/{id}', [SiswaController::class, 'viewUKK']);
+    Route::get('/siswa/prakerin', [SiswaController::class, 'viewPrakerin']);
+
+    Route::post('/siswa/soal/ukk/{id}', [SiswaController::class, 'submitSoalUkk']);
+
+
+    Route::post('/siswa/prakerin', [SiswaController::class, 'prakerin']);
 
     // ===============================================================================================
     // zone validasi
@@ -86,6 +106,10 @@ Route::middleware(['check:siswa'])->group(function () {
 // Ujian
 // ===============================================================================================
 Route::get('/siswa/kerjakan/{jenis}/{id}', [SiswaController::class, 'viewKerjakan'])->middleware('check:ujian');
+Route::post('/siswa/kerjakan/{jenis}/{id}/submit', [SiswaController::class, 'storeJawabanPilihan'])->middleware('check:ujian');
+Route::post('/siswa/kerjakan/{jenis}/{id}/submitUraian', [SiswaController::class, 'storeJawabanUraian'])->middleware('check:ujian');
+
+Route::get('/siswa/score', [SiswaController::class, 'score']);
 
 // ===============================================================================================
 // Hanya Admin !!!
