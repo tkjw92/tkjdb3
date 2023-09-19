@@ -211,6 +211,9 @@ class DataController extends Controller
 
     public function deleteDataSiswa($id)
     {
+        $siswa = DB::table('tb_siswa')->where('id', $id)->first();
+        DB::table('tb_prakerin')->where('nis', $siswa->nis)->delete();
+
         DB::table('tb_siswa')->where('id', $id)->delete();
 
         return redirect('/guru/data/data-siswa');
@@ -219,6 +222,7 @@ class DataController extends Controller
     public function deleteDataDudi($id)
     {
         DB::table('tb_dudi')->where('id', $id)->delete();
+        DB::table('tb_prakerin')->where('id_dudi', $id)->delete();
 
         return redirect('/guru/data/data-dudi');
     }
