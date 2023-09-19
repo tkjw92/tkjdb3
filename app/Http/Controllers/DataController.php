@@ -13,7 +13,18 @@ class DataController extends Controller
 
     public function dashboard()
     {
-        return view('guru.layouts.main');
+        $siswa = DB::table('tb_siswa')->count();
+        $guru = DB::table('tb_guru')->count();
+        $dudi = DB::table('tb_dudi')->count();
+        $kelas = DB::table('tb_kelas')->count();
+
+        $asesmen = DB::table('tb_soal')->where('jenis', 'asesmen')->count();
+        $pts = DB::table('tb_soal')->where('jenis', 'pts')->count();
+        $pas = DB::table('tb_soal')->where('jenis', 'pas')->count();
+        $usp = DB::table('tb_soal')->where('jenis', 'usp')->count();
+        $ukk = DB::table('tb_soal')->where('jenis', 'ukk')->count();
+
+        return view('guru.index', compact('siswa', 'guru', 'dudi', 'kelas', 'asesmen', 'pts', 'pas', 'usp', 'ukk'));
     }
 
     public function viewDataGuru()
