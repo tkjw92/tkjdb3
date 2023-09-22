@@ -154,12 +154,11 @@ class DataController extends Controller
 
     public function addDataSiswa(Request $request)
     {
-        // cek ketersediaan nis dan nisn
+        // cek ketersediaan nis
         $availableNis = DB::table('tb_siswa')->where('nis', $request->nis)->count() > 0 ? false : true;
-        $availableNisn = DB::table('tb_siswa')->where('nisn', $request->nisn)->count() > 0 ? false : true;
 
         // menambahkan data ke siswa
-        if ($availableNis && $availableNisn) {
+        if ($availableNis) {
             DB::table('tb_siswa')->insert([
                 'nis' => $request->nis,
                 'nisn' => $request->nisn,
